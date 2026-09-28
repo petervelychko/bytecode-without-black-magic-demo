@@ -30,7 +30,8 @@ public final class InspectDemo {
                 .map(entry -> entry.asInternalName())
                 .orElse("<none>"));
 
-        System.out.println("\nMethods:");
+        System.out.println();
+        System.out.println("Methods:");
         for (MethodModel method : model.methods()) {
             System.out.printf("  %-12s %s%n",
                     method.methodName().stringValue(),
@@ -42,7 +43,8 @@ public final class InspectDemo {
                 .findFirst()
                 .orElseThrow();
 
-        System.out.println("\nInstructions in add(int, int):");
+        System.out.println();
+        System.out.println("Instructions in add(int, int):");
         add.code().orElseThrow().forEach(element -> {
             if (element instanceof Instruction instruction) {
                 System.out.println("  " + describe(instruction));

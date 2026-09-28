@@ -55,7 +55,8 @@ public final class GenerateDemo {
         System.out.println("Bytes:    " + bytes.length);
         System.out.println("Verify:   OK");
         System.out.println("answer(): " + answer);
-        System.out.println("\nTry:");
+        System.out.println();
+        System.out.println("Try:");
         System.out.println("  javap -c -p " + OUTPUT);
     }
 
