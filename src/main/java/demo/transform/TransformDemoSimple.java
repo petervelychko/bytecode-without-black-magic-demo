@@ -55,7 +55,6 @@ public class TransformDemoSimple {
          * For each MethodModel:
          *
          * answer() -> replace 42 with 43
-         * add()    -> add entry/exit logging
          *
          * Everything else is preserved unchanged.
          * ---------------------------------------------------------
