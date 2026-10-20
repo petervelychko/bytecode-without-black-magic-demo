@@ -115,15 +115,4 @@ public class TransformDemoSimple {
         System.out.println("  mvn clean compile");
         System.out.println("before running this transform again.");
     }
-
-    /**
-     * Emits:
-     * <p>
-     * System.out.println(text);
-     */
-    private static void emitPrintln(CodeBuilder builder, String text) {
-        builder.getstatic(CD_SYSTEM, "out", CD_PRINT_STREAM)
-                .ldc(builder.constantPool().stringEntry(text))
-                .invokevirtual(CD_PRINT_STREAM, "println", PRINTLN_STRING);
-    }
 }
