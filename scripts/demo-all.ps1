@@ -16,7 +16,7 @@ Write-Host "`n===== javap: Generated ====="
 & javap -c -p target/classes/demo/generated/Generated.class
 
 Write-Host "`n===== 3. TRANSFORM ====="
-& java -cp target/classes demo.transform.TransformDemo
+& java -cp target/classes demo.transform.TransformDemoCombined
 
 Write-Host "`n===== javap: Calculator after transform ====="
 & javap -c -p target/classes/demo/target/Calculator.class

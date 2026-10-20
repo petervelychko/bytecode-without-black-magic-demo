@@ -188,7 +188,7 @@ javap -c -p target/classes/demo/target/Calculator.class
 Run the transformation:
 
 ```bash
-java -cp target/classes demo.transform.TransformDemo
+java -cp target/classes demo.transform.TransformDemoCombined
 ```
 
 The demo performs two transformations:
@@ -259,7 +259,7 @@ inject code immediately before returning while preserving the original instructi
 
 ### Important
 
-`TransformDemo` modifies `Calculator.class` in place. Before running the transform again, rebuild the project so you 
+`TransformDemoCombined` modifies `Calculator.class` in place. Before running the transform again, rebuild the project so you 
 start from the pristine class:
 
 ```bash

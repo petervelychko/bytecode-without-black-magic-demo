@@ -1,15 +1,6 @@
 package demo.transform;
 
-import java.lang.classfile.ClassFile;
-import java.lang.classfile.ClassModel;
-import java.lang.classfile.ClassTransform;
-import java.lang.classfile.CodeBuilder;
-import java.lang.classfile.CodeElement;
-import java.lang.classfile.CodeTransform;
-import java.lang.classfile.Instruction;
-import java.lang.classfile.MethodModel;
-import java.lang.classfile.MethodTransform;
-import java.lang.classfile.Opcode;
+import java.lang.classfile.*;
 import java.lang.classfile.instruction.ConstantInstruction;
 import java.lang.constant.ClassDesc;
 import java.lang.constant.MethodTypeDesc;
@@ -19,7 +10,7 @@ import java.nio.file.Path;
 import static java.lang.constant.ConstantDescs.CD_String;
 import static java.lang.constant.ConstantDescs.CD_void;
 
-public final class TransformDemo {
+public class TransformDemoSimple {
 
     private static final Path CALCULATOR_PATH = Path.of("target/classes/demo/target/Calculator.class");
 
@@ -29,7 +20,7 @@ public final class TransformDemo {
 
     private static final MethodTypeDesc PRINTLN_STRING = MethodTypeDesc.of(CD_void, CD_String);
 
-    private TransformDemo() {
+    private TransformDemoSimple() {
     }
 
     static void main() throws Exception {
@@ -39,7 +30,7 @@ public final class TransformDemo {
 
         /*
          * ---------------------------------------------------------
-         * Transformation #1
+         * Transformation
          * Change:
          *     return 42;
          * into:
@@ -53,47 +44,6 @@ public final class TransformDemo {
                 builder.loadConstant(43);
             } else {
                 // Preserve every other code element.
-                builder.with(element);
-            }
-        };
-
-        /*
-         * ---------------------------------------------------------
-         * Transformation #2
-         *
-         * Instrument:
-         *     add(int a, int b)
-         * so it behaves conceptually like:
-         *     System.out.println("[enter] add()");
-         *
-         *     ... original method ...
-         *
-         *     System.out.println("[exit] add()");
-         *     return result;
-         * ---------------------------------------------------------
-         */
-        CodeTransform instrumentAdd = new CodeTransform() {
-
-            @Override
-            public void atStart(CodeBuilder builder) {
-                emitPrintln(builder, "[enter] add()");
-            }
-
-            @Override
-            public void accept(CodeBuilder builder, CodeElement element) {
-
-                /*
-                 * Insert the exit message immediately
-                 * before the original IRETURN.
-                 */
-                if (element instanceof Instruction instruction && instruction.opcode() == Opcode.IRETURN) {
-                    emitPrintln(builder, "[exit] add()");
-                }
-
-                /*
-                 * Preserve the original element.
-                 * This also preserves the original IRETURN.
-                 */
                 builder.with(element);
             }
         };
@@ -115,9 +65,6 @@ public final class TransformDemo {
             if (element instanceof MethodModel method) {
                 if (method.methodName().equalsString("answer")) {
                     builder.transformMethod(method, MethodTransform.transformingCode(replace42With43));
-
-                } else if (method.methodName().equalsString("add")) {
-                    builder.transformMethod(method, MethodTransform.transformingCode(instrumentAdd));
 
                 } else {
                     /*
